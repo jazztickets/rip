@@ -1,0 +1,11 @@
+bash scripts that rip, tag, then flac.
+
+sudo apt-get install xmlstarlet perl flac
+
+1. ./getbrainz.sh
+
+2. rm *.wav && cdparanoia -B
+
+3. ./toflac.sh
+
+4. ./move.sh
