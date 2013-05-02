@@ -15,16 +15,10 @@ read pick
 rm -f tags.txt
 touch tags.txt
 xml=metadata.xml
-artist=$(xmlstarlet sel -N a="http://musicbrainz.org/ns/mmd-1.0#" -t -v '/a:metadata/a:release-list/a:release['$pick']/a:artist/a:name' $xml | perl -n -mHTML::Entities -e ' ; print HTML::Entities::decode_entities($_) ;')
-album=$(xmlstarlet sel -N a="http://musicbrainz.org/ns/mmd-1.0#" -t -v '/a:metadata/a:release-list/a:release['$pick']/a:title' $xml | perl -n -mHTML::Entities -e ' ; print HTML::Entities::decode_entities($_) ;')
+artist=$(xmlstarlet sel -N a="http://musicbrainz.org/ns/mmd-1.0#" -t -v '/a:metadata/a:release-list/a:release['$pick']/a:artist/a:name' $xml | perl -n -mHTML::Entities -e ' ; print HTML::Entities::decode_entities($_) ;' | sed "s/’/'/g" | sed "s/‐/-/g")
+album=$(xmlstarlet sel -N a="http://musicbrainz.org/ns/mmd-1.0#" -t -v '/a:metadata/a:release-list/a:release['$pick']/a:title' $xml | perl -n -mHTML::Entities -e ' ; print HTML::Entities::decode_entities($_) ;' | sed "s/’/'/g" | sed "s/‐/-/g")
 year=$(xmlstarlet sel -N a="http://musicbrainz.org/ns/mmd-1.0#" -t -v '/a:metadata/a:release-list/a:release['$pick']/a:release-event-list/a:event/@date' $xml | egrep '[0-9]{4}' -o)
-tracks=$(xmlstarlet sel -N a="http://musicbrainz.org/ns/mmd-1.0#" -t -v '/a:metadata/a:release-list/a:release['$pick']/a:track-list//a:track/a:title' $xml | perl -n -mHTML::Entities -e ' ; print HTML::Entities::decode_entities($_) ;')
-
-# remove musicbrainz utf8 chars
-album=${album/’/'}
-album=${album/‐/-}
-tracks=${tracks/’/'}
-tracks=${tracks/‐/-}
+tracks=$(xmlstarlet sel -N a="http://musicbrainz.org/ns/mmd-1.0#" -t -v '/a:metadata/a:release-list/a:release['$pick']/a:track-list//a:track/a:title' $xml | perl -n -mHTML::Entities -e ' ; print HTML::Entities::decode_entities($_) ;' | sed "s/’/'/g" | sed "s/‐/-/g")
 
 echo "ARTIST=$artist" >> tags.txt
 echo "ALBUM=$album" >> tags.txt
@@ -38,3 +32,4 @@ for track in $tracks; do
 	i=$[i + 1]
 done
 
+cat tags.txt

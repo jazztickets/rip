@@ -1,6 +1,6 @@
 bash scripts that rip, tag, then flac.
 
-sudo apt-get install xmlstarlet perl flac
+sudo apt-get install xmlstarlet perl flac cdparanoia
 
 1. ./getbrainz.sh
 
