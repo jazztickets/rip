@@ -19,6 +19,13 @@ artist=$(xmlstarlet sel -N a="http://musicbrainz.org/ns/mmd-1.0#" -t -v '/a:meta
 album=$(xmlstarlet sel -N a="http://musicbrainz.org/ns/mmd-1.0#" -t -v '/a:metadata/a:release-list/a:release['$pick']/a:title' $xml | perl -n -mHTML::Entities -e ' ; print HTML::Entities::decode_entities($_) ;')
 year=$(xmlstarlet sel -N a="http://musicbrainz.org/ns/mmd-1.0#" -t -v '/a:metadata/a:release-list/a:release['$pick']/a:release-event-list/a:event/@date' $xml | egrep '[0-9]{4}' -o)
 tracks=$(xmlstarlet sel -N a="http://musicbrainz.org/ns/mmd-1.0#" -t -v '/a:metadata/a:release-list/a:release['$pick']/a:track-list//a:track/a:title' $xml | perl -n -mHTML::Entities -e ' ; print HTML::Entities::decode_entities($_) ;')
+
+# remove musicbrainz utf8 chars
+album=${album/’/'}
+album=${album/‐/-}
+tracks=${tracks/’/'}
+tracks=${tracks/‐/-}
+
 echo "ARTIST=$artist" >> tags.txt
 echo "ALBUM=$album" >> tags.txt
 echo "YEAR=$year" >> tags.txt
