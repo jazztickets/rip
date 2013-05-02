@@ -15,7 +15,8 @@ for f in *.wav; do
 	pad_num=$(echo $f | grep '[0-9]\+' -o)
 	num=$(echo $pad_num | sed -r 's|^0+||g')
 	title=$(grep ^TRACK$pad_num= $infile | sed 's/.\+=//g')
-	clean_title=${title//[\<\>\"\/\\\|\*\:\?]/}
+	clean_title=${title//[\<\>\"\|\*\:\?]/}
+	clean_title=${clean_title//[\/\\]/-}
 	flac -8 -f -T "DATE=$year" -T "ARTIST=$artist" -T "ALBUM=$album" -T "TRACKNUMBER=$num" -T "TITLE=$title" $f -o "$clean_artist"/"$clean_album"/$pad_num\ -\ "$clean_title".flac 
 done
 
