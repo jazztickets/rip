@@ -1,5 +1,9 @@
 bash scripts that rip, tag, then flac.
 
+Arch:
+sudo pacman -S libdiscid perl xmlstarlet flac cdparanoia
+
+Ubuntu:
 sudo apt-get install xmlstarlet perl flac cdparanoia
 
 1. ./getbrainz.sh

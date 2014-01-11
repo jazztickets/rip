@@ -5,5 +5,5 @@ mkdir -p "$artist"/"$album"
 for f in "$1"/*.flac; do
 	output="$artist"/"$album"/$(basename "$f" .flac).ogg
 	
-	avconv -y -i "$f" -c:a libvorbis -aq 4 "$output"
+	ffmpeg -y -i "$f" -c:a libvorbis -aq 8 "$output"
 done
