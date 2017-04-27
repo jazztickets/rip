@@ -8,7 +8,7 @@ sudo apt-get install xmlstarlet perl flac cdparanoia
 
 1. ./getbrainz.sh
 
-2. rm *.wav && cdparanoia -B
+2. cdparanoia -B
 
 3. ./toflac.sh
 
